@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Triage Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="text-center mb-xl">
+            <h1 class="font-bold">Medical Triage Assistant</h1>
+            <p class="text-muted">AI-Powered Rural Clinical Risk Assessment</p>
+        </header>
+
+        <!-- ========================= -->
+        <!-- REPORT SECTION -->
+        <!-- ========================= -->
+        <section id="report-section" class="card hidden">
+
+            <div id="report-header" style="margin-bottom: 1rem;">
+                <h2 class="font-bold">AI Triage Report</h2>
+            </div>
+
+            <!-- Multilingual Report Grid -->
+            <div id="report-grid-container" class="report-grid"></div>
+
+            <button id="reset-btn" style="margin-top: 1rem;">Start Over</button>
+        </section>
+
+        <!-- ========================= -->
+        <!-- TRIAGE FORM -->
+        <!-- ========================= -->
+        <form id="triage-form">
+
+            <!-- Location -->
+            <section class="card">
+                <h3 class="font-bold mb-md">Location (Optional)</h3>
+                <div class="form-grid">
+                    <div>
+                        <label for="state">State / UT</label>
+                        <select id="state" name="state">
+                            <option value="">-- Select State --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="city">District / City</label>
+                        <input type="text" id="city" name="city">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Red Flags -->
+            <section class="card red-flag-section">
+                <h3 class="font-bold red-flag-title mb-md">🚨 Red Flag Checklist</h3>
+                <p class="text-sm text-muted mb-md">Select if any present immediately.</p>
+
+                <div class="checkbox-grid">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="red_flags" value="unconsciousness">
+                        Unconscious / Unresponsive
+                    </label>
+
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="red_flags" value="difficulty_breathing">
+                        Severe Difficulty Breathing
+                    </label>
+
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="red_flags" value="confusion">
+                        Sudden Confusion / Slurred Speech
+                    </label>
+
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="red_flags" value="uncontrolled_bleeding">
+                        Uncontrolled Bleeding
+                    </label>
+
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="red_flags" value="severe_trauma">
+                        Severe Trauma / Head Injury
+                    </label>
+                </div>
+            </section>
+
+            <!-- Patient Details -->
+            <section class="card">
+                <h3 class="font-bold mb-md">Patient Details</h3>
+
+                <div class="form-grid mb-md">
+                    <div>
+                        <label for="age">Age</label>
+                        <input type="number" id="age" name="age" min="0" max="120" required>
+                    </div>
+
+                    <div>
+                        <label for="sex">Sex</label>
+                        <select id="sex" name="sex" required>
+                            <option value="" disabled selected>Select...</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Pregnancy Section -->
+                <div id="pregnancy-container" class="hidden mb-md"
+                    style="padding:1rem; background:#f0f9ff; border-radius:8px; border:1px solid #bae6fd;">
+
+                    <label style="display:flex; gap:0.5rem; font-weight:600;">
+                        <input type="checkbox" id="pregnancy-checkbox" name="pregnancy" value="true">
+                        Patient is Pregnant
+                    </label>
+
+                    <div id="pregnancy-month-container" class="hidden" style="margin-top:1rem;">
+                        <label for="pregnancy_month">Select Pregnancy Month</label>
+                        <select id="pregnancy_month" name="pregnancy_month">
+                            <option value="" disabled selected>Select Month...</option>
+
+                            <optgroup label="First Trimester">
+                                <option value="1">Month 1</option>
+                                <option value="2">Month 2</option>
+                                <option value="3">Month 3</option>
+                            </optgroup>
+
+                            <optgroup label="Second Trimester">
+                                <option value="4">Month 4</option>
+                                <option value="5">Month 5</option>
+                                <option value="6">Month 6</option>
+                            </optgroup>
+
+                            <optgroup label="Third Trimester (High Risk)">
+                                <option value="7">Month 7</option>
+                                <option value="8">Month 8</option>
+                                <option value="9">Month 9 (Full Term)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Medical History -->
+                <label class="font-bold mb-sm">Known Conditions (History)</label>
+                <div class="checkbox-grid">
+                    <label class="checkbox-label"><input type="checkbox" name="history" value="diabetes">
+                        Diabetes</label>
+                    <label class="checkbox-label"><input type="checkbox" name="history" value="hypertension">
+                        Hypertension</label>
+                    <label class="checkbox-label"><input type="checkbox" name="history" value="asthma"> Asthma /
+                        COPD</label>
+                    <label class="checkbox-label"><input type="checkbox" name="history" value="cardiac"> Heart
+                        Disease</label>
+                    <label class="checkbox-label"><input type="checkbox" name="history" value="immunocompromised">
+                        Immunocompromised</label>
+                </div>
+            </section>
+
+            <!-- Symptoms -->
+            <section class="card">
+                <h3 class="font-bold mb-md">Current Symptoms</h3>
+
+                <div class="checkbox-grid mb-md">
+                    <label class="checkbox-label"><input type="checkbox" name="symptoms" value="fever"> Fever</label>
+                    <label class="checkbox-label"><input type="checkbox" name="symptoms" value="cough"> Cough</label>
+                    <label class="checkbox-label"><input type="checkbox" name="symptoms" value="abdominal_pain">
+                        Abdominal Pain</label>
+                    <label class="checkbox-label"><input type="checkbox" name="symptoms" value="vomiting"> Vomiting /
+                        Diarrhea</label>
+                    <label class="checkbox-label"><input type="checkbox" name="symptoms" value="chest_pain_mild"> Mild
+                        Chest Pain</label>
+                    <label class="checkbox-label"><input type="checkbox" name="symptoms" value="headache">
+                        Headache</label>
+                    <label class="checkbox-label"><input type="checkbox" name="symptoms" value="dizziness">
+                        Dizziness</label>
+                    <label class="checkbox-label"><input type="checkbox" name="symptoms" value="rash"> Skin Rash</label>
+                    <label class="checkbox-label"><input type="checkbox" name="symptoms" value="injury"> Injury /
+                        Wound</label>
+                </div>
+
+                <!-- Duration -->
+                <label class="font-bold">Duration</label>
+                <div class="duration-container mb-md">
+                    <label><input type="radio" name="duration" value="acute" required> &lt; 24 Hours</label>
+                    <label><input type="radio" name="duration" value="subacute"> 1–3 Days</label>
+                    <label><input type="radio" name="duration" value="chronic"> &gt; 3 Days</label>
+                </div>
+
+                <!-- Severity -->
+                <label class="font-bold">Severity (1–10)</label>
+                <div class="slider-container">
+                    <span>Mild</span>
+                    <input type="range" id="severity" name="severity" min="1" max="10" value="5">
+                    <span>Severe</span>
+                    <span id="severity-display" class="severity-value">5</span>
+                </div>
+            </section>
+
+            <button type="submit">Generate AI Triage Analysis</button>
+
+        </form>
+
+    </main>
+
+    <!-- JS -->
+    <script src="js/l10n.js"></script>
+    <script src="js/triage_v3.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+{
+    "name": "Medical Triage Assistant",
+    "short_name": "Triage",
+    "description": "Offline-capable medical triage system for rural clinics.",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#0b6bcb",
+    "icons": [
+        {
+            "src": "icon.svg",
+            "sizes": "512x512",
+            "type": "image/svg+xml"
+        }
+    ]
+}
